@@ -8,7 +8,7 @@ def norm2(x, y, A):
 	return numpy.linalg.norm((A[x]-A[y])[numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], 2)
 
 def corr(x, y, A):
-	return pearsonr(A[x][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], A[x][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)])[0
+	return pearsonr(A[x][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], A[y][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)])[0]
 
 
 def main():
@@ -25,6 +25,25 @@ def main():
 	for i, j in data.iteritems():
 		for k, l in j.iteritems():
 			A[persons.index(i)][papers.index(k)] = l
+	
+	Num2 = numpy.zeros((len(persons), len(persons)), dtype=float) 
+	Corr = numpy.zeros((len(persons), len(persons)), dtype=float) 
+	for i in range(len(persons)): 
+		for j in range(len(persons)):
+			Num2[i][j] = norm2(i, j, A)
+			Corr[i][j] = corr(i, j, A) 
+	
+	print "--------------------persons--------------"
+	print persons
+	print "--------------------papers---------------"
+	print papers
+	print "--------------------likes----------------"
+	print A
+	print "--------------------norm2----------------"
+	print Num2
+	print "--------------------Curr-----------------"
+	print Corr
+
 	
 main()
 
