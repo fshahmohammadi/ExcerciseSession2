@@ -15,7 +15,9 @@ def main():
 	for i, j in data.iteritems():
 		for k, l in j.iteritems():
 			A[persons.index(i)][papers.index(k)] = l
-	print A
+	for i in range(len(persons)):
+		for j in range(len(papers)):
+			print str(persons[i]) + " " + str(papers[j]) + " " + str(A[i][j])
 
 main()
 
