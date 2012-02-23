@@ -7,11 +7,17 @@ data = inputdata.raw_scores
 def norm2(x, y, A):
 	return numpy.linalg.norm((A[x]-A[y])[numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], 2)
 
-def corr(x, y, A):
+def corr(x, y, A): 
 	return pearsonr(A[x][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], A[y][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)])[0]
 
-def SimilarResearcher(x, A, persons): 
-	return [(sorted([(persons[i], norm2(x, i, A))  for i in range(len(A[x]))], reverse=True)[0:4]) [j][0] for j in range(4)]  
+def SimilarResearcher(x, A, persons):
+	return [(sorted([(norm2(x, i, A), persons[i])  for i in range(len(A[x]))])[1:6]) [j][1] for j in range(5)]  
+
+def SimilarPapers(x, A, papers): 
+	return [(sorted([(norm2(x, i, numpy.transpose(A)), papers[i])  for i in range(len(A[x]))])[1:6]) [j][1] for j in range(5)]  
+
+#def RecommendPaper(x, A, persons):
+		
 
 
 def main():
@@ -33,7 +39,7 @@ def main():
 	Corr = numpy.zeros((len(persons), len(persons)), dtype=float) 
 	Num2 = [([norm2(i, j, A) for j in range(len(persons))]) for i in range(len(persons))]
 	Corr = [([corr(i, j, A)  for j in range(len(persons))]) for i in range(len(persons))]
-	print SimilarResearcher(0, A, persons)
+	print SimilarPapers(0, A, papers)
 	
 '''	
 	print "--------------------persons--------------"
@@ -42,10 +48,11 @@ def main():
 	print papers
 	print "--------------------likes----------------"
 	print A
-	print "--------------------norm2----------------"
+	print "--------------------norm2 distanses------"
 	print Num2
-	print "--------------------Curr-----------------"
+	print "--------------------corrilations---------"
 	print Corr
+	print SimilarResearcher(0, A, persons)
 '''
 	
 main()
