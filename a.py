@@ -10,6 +10,9 @@ def norm2(x, y, A):
 def corr(x, y, A):
 	return pearsonr(A[x][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)], A[y][numpy.logical_and( (A[x]) > 0, (A[y]) > 0)])[0]
 
+def SimilarResearcher(x, A, persons): 
+	return [(sorted([(persons[i], norm2(x, i, A))  for i in range(len(A[x]))], reverse=True)[0:4]) [j][0] for j in range(4)]  
+
 
 def main():
 	persons = data.keys()
@@ -28,11 +31,11 @@ def main():
 	
 	Num2 = numpy.zeros((len(persons), len(persons)), dtype=float) 
 	Corr = numpy.zeros((len(persons), len(persons)), dtype=float) 
-	for i in range(len(persons)): 
-		for j in range(len(persons)):
-			Num2[i][j] = norm2(i, j, A)
-			Corr[i][j] = corr(i, j, A) 
+	Num2 = [([norm2(i, j, A) for j in range(len(persons))]) for i in range(len(persons))]
+	Corr = [([corr(i, j, A)  for j in range(len(persons))]) for i in range(len(persons))]
+	print SimilarResearcher(0, A, persons)
 	
+'''	
 	print "--------------------persons--------------"
 	print persons
 	print "--------------------papers---------------"
@@ -43,7 +46,7 @@ def main():
 	print Num2
 	print "--------------------Curr-----------------"
 	print Corr
-
+'''
 	
 main()
 
